@@ -44,11 +44,12 @@ export default function SemanticChat(): JSX.Element {
     setIsLoading(true);
 
     try {
-      const res = await fetch('/ask', {
+      const res = await fetch('http://localhost:8000/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: userMessage })
       });
+
       const data: ApiResponse = await res.json();
 
       // Add bot responses
@@ -78,6 +79,31 @@ export default function SemanticChat(): JSX.Element {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    async function loadHistory() {
+      const res = await fetch('http://localhost:8000/history');
+      const data = await res.json();
+
+      // convert db docs → your Message interface
+      const mapped = data.map((msg: any) => ({
+        type: msg.role,
+        text: msg.text,
+        src: msg.src
+      }));
+
+      setMessages([
+        {
+          type: 'bot',
+          text: 'Hi. I am Dwarakesh. Ask me anything.'
+        },
+        ...mapped
+      ]);
+    }
+
+    loadHistory();
+  }, []);
+
 
   return (
     <div className="h-screen bg-gray-100 flex flex-col">
