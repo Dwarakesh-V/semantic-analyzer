@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# Semantic Intent Routing Engine
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight, fast, and fully deterministic alternative to traditional intent-classification systems.  
+Built with **React + Vite + Tailwind** on the frontend and a **Python-based semantic inference engine** on the backend.
 
-Currently, two official plugins are available:
+This system routes user queries through a graph of intents using sentence embeddings, adaptive confidence logic, and retrieval-based fallbacks—no classifiers, training loops, or model deployments required.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### **Deterministic Intent Resolution**
+Resolves user queries by traversing a DAG-structured intent graph with path-level scoring instead of a single classifier.
 
-## Expanding the ESLint configuration
+### **Adaptive Confidence Thresholding**
+Automatically adjusts sensitivity based on query length and phrasing, improving routing stability on ambiguous inputs.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### **Retrieval-Augmented Fallbacks**
+When a query doesn’t clearly match any intent, the system fetches semantically similar candidates and recovers gracefully.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### **Multi-Turn Context Handling**
+Maintains conversational context so follow-up questions like “same as before” or “for that” route correctly without repeating selections.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### **Hot-Swappable Intent Graph**
+Intents are defined in JSON and automatically converted into a navigable graph.  
+Updates apply instantly—no retraining or redeployment required.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### **Fast and Lightweight**
+Runs entirely on CPU and maintains **sub-15ms routing latency** thanks to caching and optimized traversal.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Architecture Overview
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Frontend:** React + Vite + Tailwind interface for entering queries and testing the routing behavior.  
+- **Backend:** Python engine using sentence-transformer embeddings and deterministic traversal logic.  
+- **Intent Graph:** JSON-defined structure supporting multi-parent nodes, examples, responses, and metadata.
+
+---
+
+## Why This Exists
+
+Most NLU systems rely on classifiers or fine-tuned models, which brings problems like:
+
+- retraining loops  
+- model drift  
+- slow iteration cycles  
+- low explainability  
+
+This project avoids all of that by using semantic similarity, graph traversal, and context tracking to produce stable and predictable routing—even as intents change.

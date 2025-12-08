@@ -38,7 +38,7 @@ export default function SemanticChat(): JSX.Element {
   const handleSubmit = async (): Promise<void> => {
     const userMessage = input.trim();
     setInput('');
-    
+
     // Add user message
     setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setIsLoading(true);
@@ -50,18 +50,18 @@ export default function SemanticChat(): JSX.Element {
         body: JSON.stringify({ query: userMessage })
       });
       const data: ApiResponse = await res.json();
-      
+
       // Add bot responses
       if (data.response && Array.isArray(data.response)) {
         data.response.forEach((responseText: string) => {
           const tempDiv = document.createElement('div');
           tempDiv.innerHTML = responseText;
-          
+
           const textContent = tempDiv.innerText.trim();
           if (textContent) {
             setMessages(prev => [...prev, { type: 'bot', text: textContent }]);
           }
-          
+
           const images = tempDiv.querySelectorAll('img');
           images.forEach((img: HTMLImageElement) => {
             setMessages(prev => [...prev, { type: 'image', src: img.src }]);
@@ -70,9 +70,9 @@ export default function SemanticChat(): JSX.Element {
       }
     } catch (err) {
       console.error(err);
-      setMessages(prev => [...prev, { 
-        type: 'bot', 
-        text: 'Sorry, something went wrong.' 
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        text: 'Sorry, something went wrong.'
       }]);
     } finally {
       setIsLoading(false);
@@ -84,18 +84,22 @@ export default function SemanticChat(): JSX.Element {
       {/* Header */}
       <div className="bg-teal-600 text-white p-4 shadow-sm">
         <div className="max-w-4xl mx-auto flex items-center gap-3">
-          <div className="w-10 h-10 bg-teal-700 rounded-full flex items-center justify-center font-bold">
-            D
+          <div className="w-10 h-10 bg-teal-700 rounded-full flex items-center justify-center font-bold overflow-hidden">
+            <img
+              src="/static/dp.png"
+              alt="D"
+              className="w-full h-full object-contain rounded-full"
+            />
           </div>
           <div>
             <h1 className="font-semibold text-lg">Dwarakesh</h1>
-            <p className="text-xs text-teal-100">Online</p>
+            <p className="text-xs text-teal-100">Semantic intent routing engine</p>
           </div>
         </div>
       </div>
 
       {/* Chat messages container */}
-      <div 
+      <div
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto p-4 bg-gray-100"
         style={{
@@ -107,15 +111,16 @@ export default function SemanticChat(): JSX.Element {
             <React.Fragment key={idx}>
               {msg.type === 'user' && (
                 <div className="flex justify-end">
-                  <div className="max-w-[70%] bg-green-500 text-white px-4 py-2 rounded-lg rounded-tr-sm shadow-sm">
+                  <div className="max-w-[70%] bg-white text-gray-800 px-4 py-2 rounded-lg rounded-tr-sm shadow-sm">
+                    <div className="font-semibold text-teal-600 text-sm mb-1">You</div>
                     <div>{msg.text}</div>
-                    <div className="text-xs text-green-100 mt-1 text-right">
+                    <div className="text-xs text-gray-500 mt-1">
                       {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
                 </div>
               )}
-              
+
               {msg.type === 'bot' && (
                 <div className="flex justify-start">
                   <div className="max-w-[70%] bg-white text-gray-800 px-4 py-2 rounded-lg rounded-tl-sm shadow-sm">
@@ -127,7 +132,7 @@ export default function SemanticChat(): JSX.Element {
                   </div>
                 </div>
               )}
-              
+
               {msg.type === 'image' && (
                 <div className="flex justify-start">
                   <div className="bg-white p-2 rounded-lg shadow-sm">
@@ -147,7 +152,7 @@ export default function SemanticChat(): JSX.Element {
             type="text"
             value={input}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             placeholder="Type a message"
             disabled={isLoading}
             className="flex-1 px-4 py-3 rounded-full bg-white border-none focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
@@ -155,9 +160,9 @@ export default function SemanticChat(): JSX.Element {
           <button
             onClick={handleSubmit}
             disabled={isLoading || input.trim().length === 0}
-            className="w-12 h-12 bg-teal-600 hover:bg-teal-700 text-white rounded-full flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            className="w-12 h-12 bg-teal-600 hover:bg-teal-700 cursor-pointer text-white rounded-full flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
           >
-            <Send size={20} />
+            <Send size={18} />
           </button>
         </div>
       </div>
