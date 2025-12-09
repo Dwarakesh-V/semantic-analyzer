@@ -85,6 +85,25 @@ app.get("/history", async (req, res) => {
   res.json(messages);
 });
 
+// Clear chat history endpoint
+app.post("/clear", async (req, res) => {
+  try {
+    // Delete all messages from database
+    await Message.deleteMany({});
+    
+    // Create new initial greeting message
+    const initialMessage = await Message.create({
+      role: "bot",
+      text: "Hi. I am Dwarakesh. Ask me anything."
+    });
+
+    res.json({ success: true, message: initialMessage });
+  } catch (err) {
+    console.error("Error clearing chat:", err);
+    res.status(500).json({ error: err.toString() });
+  }
+});
+
 app.listen(8000, () =>
   console.log("Node server running on http://localhost:8000")
 );
