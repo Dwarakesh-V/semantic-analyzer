@@ -151,7 +151,7 @@ export default function SemanticChat(): JSX.Element {
                 <div className="flex justify-start">
                   <div className="max-w-[70%] bg-white text-gray-800 px-4 py-2 rounded-lg rounded-tl-sm shadow-sm">
                     <div className="font-semibold text-teal-600 text-sm mb-1">Dwarakesh</div>
-                    <div>{msg.text}</div>
+                    <div dangerouslySetInnerHTML={{ __html: msg.text ?? "" }} />
                     <div className="text-xs text-gray-500 mt-1">
                       {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                     </div>
@@ -160,12 +160,21 @@ export default function SemanticChat(): JSX.Element {
               )}
 
               {msg.type === 'image' && (
-                <div className="flex justify-start">
-                  <div className="bg-white p-2 rounded-lg shadow-sm">
-                    <img src={msg.src} alt="Response" className="max-w-[250px] rounded" />
+                <>
+                  <br />
+                  <div className="flex justify-start">
+                    <div className="bg-white p-2 rounded-lg shadow-sm">
+                      <img
+                        src={msg.src}
+                        alt="Response"
+                        className="w-[250px] rounded"
+                      />
+                    </div>
                   </div>
-                </div>
+                  <br />
+                </>
               )}
+
             </React.Fragment>
           ))}
         </div>
