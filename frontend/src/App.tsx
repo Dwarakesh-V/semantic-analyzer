@@ -16,7 +16,7 @@ export default function SemanticChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       type: 'bot',
-      text: 'Hi. I am Dwarakesh. Ask me anything.',
+      text: 'Hi. I am Dwarakesh. Ask me anything about myself.',
       timestamp: new Date().toISOString()
     }
   ]);
@@ -67,7 +67,7 @@ export default function SemanticChat() {
           if (htmlContent.length > 0) {
             setMessages(prev => [
               ...prev,
-              { type: 'bot', text: htmlContent + "<br>", timestamp: new Date().toISOString() }
+              { type: 'bot', text: htmlContent, timestamp: new Date().toISOString() }
             ]);
           }
         });
@@ -94,7 +94,7 @@ export default function SemanticChat() {
       // Create new initial message with current timestamp
       const initialMessage = {
         type: 'bot' as const,
-        text: 'Hi. I am Dwarakesh. Ask me anything.',
+        text: 'Hi. I am Dwarakesh. Ask me anything about myself.',
         timestamp: new Date().toISOString()
       };
 
@@ -122,7 +122,7 @@ export default function SemanticChat() {
           setMessages([
             {
               type: 'bot',
-              text: 'Hi. I am Dwarakesh. Ask me anything.',
+              text: 'Hi. I am Dwarakesh. Ask me anything about myself.',
               timestamp: new Date().toISOString()
             }
           ]);
